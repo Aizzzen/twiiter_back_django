@@ -7,11 +7,16 @@ from users.managers import UserManager
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    username = models.CharField(_('username'), max_length=255, unique=True)
-    email = models.EmailField(_('email address'), null=True, blank=True)
-    phone = models.CharField(_('phone number'), max_length=30, null=True, blank=True)
+    email = models.EmailField(_('email address'), blank=False)
+    fullname = models.CharField(_('fullname'), max_length=255, blank=True)
+    username = models.CharField(_('username'), max_length=255, unique=True, blank=False)
+
+    location = models.CharField(_('location'), max_length=255, blank=True)
+    about = models.CharField(_('about'), max_length=255, blank=True)
+    website = models.CharField(_('website'), max_length=255, blank=True)
+
     date_joined = models.DateTimeField(_('date joined'), auto_now_add=True)
-    is_active = models.BooleanField(_('active'), default=False)
+    is_active = models.BooleanField(_('active'), default=True)
     is_staff = models.BooleanField(_('staff'), default=False)
 
     is_verified = models.BooleanField(_('verified'), default=False)
@@ -24,4 +29,4 @@ class User(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = _('user')
         verbose_name_plural = _('users')
-        unique_together = ('username', 'email', 'phone')
+        unique_together = ('username', 'email', 'fullname')
